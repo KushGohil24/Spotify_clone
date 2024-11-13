@@ -15,7 +15,7 @@ function convertSecondsToMinutes(seconds) {
 
 async function getSongs(folder) {
     currFolder = folder;
-    let api = await fetch(`./Spotify_clone/assets/songs/${folder}/`);
+    let api = await fetch(`./assets/songs/${folder}/`);
 
     let response = await api.text();
     let div = document.createElement("div");
@@ -93,7 +93,7 @@ function removeLeftSec(leftSec){
 }
 
 async function displayAlbums(){
-    let api = await fetch(`./Spotify_clone/assets/songs/`);
+    let api = await fetch(`./assets/songs/`);
 
     let response = await api.text();
     let div = document.createElement("div");
