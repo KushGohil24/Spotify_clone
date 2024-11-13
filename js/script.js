@@ -15,7 +15,7 @@ function convertSecondsToMinutes(seconds) {
 
 async function getSongs(folder) {
     currFolder = folder;
-    let api = await fetch(`../Spotify_clone/assets/songs/${folder}/`);
+    let api = await fetch(`../assets/songs/${folder}/`);
 
     let response = await api.text();
     let div = document.createElement("div");
@@ -53,7 +53,7 @@ async function getSongs(folder) {
 }
 
 const playMusic = (track, pause) => {
-    currentSong.src = `../Spotify_clone/assets/songs/${currFolder}/` + track;
+    currentSong.src = `../assets/songs/${currFolder}/` + track;
     currentSong.addEventListener("loadedmetadata", () => {
         document.querySelector(".songinfo").innerHTML = decodeURI(track);
         document.querySelector(".songtime").innerHTML = `00:00 / ${convertSecondsToMinutes(currentSong.duration)}`;
@@ -62,7 +62,7 @@ const playMusic = (track, pause) => {
         currentSong.play().catch(error => {
             console.error("Audio playback failed:", error);
         });
-        play.src = "../Spotify_clone/assets/images/icons/pause.svg";
+        play.src = "../assets/images/icons/pause.svg";
     }
     let leftSec = document.querySelector(".left");
     if (leftSec.style.left === "0%") {
@@ -73,10 +73,10 @@ const playMusic = (track, pause) => {
 function togglePlayBtn() {
     if (currentSong.paused) {
         currentSong.play();
-        play.src = "../Spotify_clone/assets/images/icons/pause.svg";
+        play.src = "../assets/images/icons/pause.svg";
     } else {
         currentSong.pause();
-        play.src = "../Spotify_clone/assets/images/icons/play.svg";
+        play.src = "../assets/images/icons/play.svg";
     }
 }
 
@@ -93,7 +93,7 @@ function removeLeftSec(leftSec){
 }
 
 async function displayAlbums(){
-    let api = await fetch(`../Spotify_clone/assets/songs/`);
+    let api = await fetch(`../assets/songs/`);
 
     let response = await api.text();
     let div = document.createElement("div");
@@ -105,14 +105,14 @@ async function displayAlbums(){
             if(element.href.includes("/songs/")){
                 let folder = element.href.split("/").slice(-1)[0];
                 // get the metadeta of the folder
-                let api = await fetch(`../Spotify_clone/assets/songs/${folder}/info.json`);
+                let api = await fetch(`../assets/songs/${folder}/info.json`);
 
                 let response = await api.json(); 
                 let cardContainer = document.querySelector(".cardContainer");
                 cardContainer.innerHTML = cardContainer.innerHTML + `
                 <div data-folder = "${folder}" class="card">
-                    <img src="../Spotify_clone/assets/songs/${folder}/cover.jpeg" alt="cover">
-                    <img src="../Spotify_clone/assets/images/icons/playlistBtn.svg" alt="play" class="playlistBtn">
+                    <img src="../assets/songs/${folder}/cover.jpeg" alt="cover">
+                    <img src="../assets/images/icons/playlistBtn.svg" alt="play" class="playlistBtn">
                     <h2>${response.title}</h2>
                     <p>${response.description}</p>
                 </div>`
@@ -150,7 +150,7 @@ async function main() {
         document.querySelector(".circle").style.left = (currentSong.currentTime / currentSong.duration) * 100 + "%";
         let index = songs.indexOf(currentSong.src.split("/").slice(-1)[0]);
         if ((index + 1) < songs.length && currentSong.currentTime === currentSong.duration) {
-            play.src = "../Spotify_clone/assets/images/icons/pause.svg";
+            play.src = "../assets/images/icons/pause.svg";
             playMusic(songs[index + 1], false);
         }
     });
@@ -184,7 +184,7 @@ async function main() {
         play.src = "assets/images/icons/play.svg";
         let index = songs.indexOf(currentSong.src.split("/").slice(-1)[0]);
         if ((index + 1) < songs.length) {
-            play.src = "../Spotify_clone/assets/images/icons/pause.svg";
+            play.src = "../assets/images/icons/pause.svg";
             playMusic(songs[index + 1], false);
         }
     });
@@ -202,13 +202,13 @@ async function main() {
         let Updatedvolume = parseInt(e.target.value) / 100;
         currentSong.volume = Updatedvolume;
         if (e.target.value == 0) {
-            volumebtn.src = "../playlistBtn/assets/images/icons/mute.svg"
+            volumebtn.src = "../assets/images/icons/mute.svg"
         } else if (e.target.value > 0 && e.target.value <= 33) {
-            volumebtn.src = "../playlistBtn/assets/images/icons/volume1.svg"
+            volumebtn.src = "../assets/images/icons/volume1.svg"
         } else if (e.target.value > 33 && e.target.value <= 66) {
-            volumebtn.src = "../playlistBtn/assets/images/icons/volume2.svg"
+            volumebtn.src = "../assets/images/icons/volume2.svg"
         } else {
-            volumebtn.src = "../playlistBtn/assets/images/icons/volume3.svg"
+            volumebtn.src = "../assets/images/icons/volume3.svg"
         }
     });
 
@@ -217,11 +217,11 @@ async function main() {
         if(e.target.src.endsWith("mute.svg")){
             currentSong.volume = 1;
             document.querySelector(".range").getElementsByTagName("input")[0].value = 100;
-            e.target.src = "../playlistBtn/assets/images/icons/volume3.svg"
+            e.target.src = "../assets/images/icons/volume3.svg"
         }else{
             currentSong.volume = 0;
             document.querySelector(".range").getElementsByTagName("input")[0].value = 0;
-            e.target.src = "../playlistBtn/assets/images/icons/mute.svg"
+            e.target.src = "../assets/images/icons/mute.svg"
         }
     })
 }
